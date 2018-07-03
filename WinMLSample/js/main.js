@@ -1,8 +1,8 @@
 ﻿if (window.Windows) {
     Windows.UI.WebUI.WebUIApplication.addEventListener('activated', function (args) {
+      
+        var mystr1 = WinMLBridge.Bridge.hello();
 
-        var mystr = WinRTBridgeComponent.Bridge.getAnswerStatic();
-        var bridge = new WinRTBridgeComponent.Bridge();
-        console.log(bridge.getAnswer());
+        console.log(mystr1);
     });
 }

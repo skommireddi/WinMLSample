@@ -75,7 +75,7 @@
     <None Include="WinMLSample_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WinRTBridgeComponent\WinRTBridgeComponent.csproj" />
+    <ProjectReference Include="..\WinMLBridge\WinMLBridge.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below then uncomment
