@@ -34,21 +34,20 @@ namespace WinMLBridge
             return "Can reach bridge";
         }
 
-        public static IAsyncOperation<D224f87054234871a169eda0b7463d86Model> CreateModelAsync(Uri filePath)
+        public static IAsyncOperation<D224f87054234871a169eda0b7463d86Model> CreateModelAsync(Uri modelUri)
         {
-            return Task.Run(async () => { return await CreateD224f87054234871a169eda0b7463d86Model(filePath); }).AsAsyncOperation();           
+            // return Task.Run(async () => { return await CreateD224f87054234871a169eda0b7463d86Model(filePath); }).AsAsyncOperation();
+            return CreateD224f87054234871a169eda0b7463d86Model(modelUri).AsAsyncOperation();
         }
 
         public IAsyncOperation<D224f87054234871a169eda0b7463d86ModelOutput> EvaluateModelAsync(D224f87054234871a169eda0b7463d86ModelInput input)
         {
-            return Task.Run(async () => { return await EvaluateAsync(input); }).AsAsyncOperation();
-
-            // return AsyncInfo.Run(async _ => await EvaluateAsync(input)); this doesn't work 
+           return EvaluateAsync(input).AsAsyncOperation(); 
         }
 
-        private async static Task<D224f87054234871a169eda0b7463d86Model> CreateD224f87054234871a169eda0b7463d86Model(Uri filePath)
+        private async static Task<D224f87054234871a169eda0b7463d86Model> CreateD224f87054234871a169eda0b7463d86Model(Uri modelUri)
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(filePath);
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(modelUri);
             LearningModelPreview learningModel = await LearningModelPreview.LoadModelFromStorageFileAsync(file);
             D224f87054234871a169eda0b7463d86Model model = new D224f87054234871a169eda0b7463d86Model();
             model.learningModel = learningModel;

@@ -15,7 +15,7 @@ async function loadModel() {
 
     var model = await WinMLBridge.D224f87054234871a169eda0b7463d86Model.createModelAsync(modelUri);
 
-    console.log("Log: Model Loaded " + mystr1);
+    console.log("Log: Model Loaded " + model);
 }
 
 
