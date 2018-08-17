@@ -23,13 +23,15 @@
             document.getElementById("snap").addEventListener("click", async function () {
                 canvasContext.drawImage(video, 0, 0, 640, 480);               
                 var imageUrl = canvas.toDataURL("image/png");
-
                 var base64Image = imageUrl.replace(/^data:image\/(png|jpg);base64,/, "");
-                var model = await loadModel();                
 
+                var image = new Image();
+                image.src = imageUrl;
+
+                var model = await loadModel();
                 var boxes = await model.evaluateModelAndProcessOutputAsync(base64Image);
 
-               // outputImg.src = "data: image / png; base64," + outputImage;
+                renderImageOutput(boxes, image);
             });
         });
 }
@@ -43,6 +45,22 @@ async function loadModel() {
     var model = await WinMLBridge.YoloModel.createModelAsync(modelUri);
     console.log("Log: Model Loaded " + model);    
     return model;
+}
+
+function renderImageOutput(boxes, img) {
+    var canvas = document.getElementById("outputCanvas");
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    boxes.forEach((box, index) => {
+        ctx.beginPath();
+        ctx.lineWidth = "3";
+        ctx.strokeStyle = "green";
+        ctx.rect(box.x, box.y, box.width, box.height);
+        ctx.stroke();
+        ctx.font = "20px Georgia";
+        ctx.fillText(box.label , box.x + box.width/4, box.y + box.height/4);
+    });
 }
 
 
