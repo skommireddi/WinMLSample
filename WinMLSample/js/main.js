@@ -1,7 +1,7 @@
 ﻿if (window.Windows) {
         Windows.UI.WebUI.WebUIApplication.addEventListener('activated', async function (args) {
 
-            var check = WinMLBridge.D224f87054234871a169eda0b7463d86Model.checkBridge();
+            var check = WinMLBridge.YoloModel.checkBridge();
             console.log("Log:" + check);
 
             var video = document.getElementById('video');
@@ -25,8 +25,11 @@
                 var imageUrl = canvas.toDataURL("image/png");
 
                 var base64Image = imageUrl.replace(/^data:image\/(png|jpg);base64,/, "");
-                var model = await loadModel();
-                var output = await model.evaluateModelAsync(base64Image);
+                var model = await loadModel();                
+
+                var boxes = await model.evaluateModelAndProcessOutputAsync(base64Image);
+
+               // outputImg.src = "data: image / png; base64," + outputImage;
             });
         });
 }
@@ -37,7 +40,7 @@ async function loadModel() {
     var yolo = "ms-appx:///Models/tiny_yolov2/TinyYOLO.onnx";
 
     var modelUri = new Windows.Foundation.Uri(yolo);
-    var model = await WinMLBridge.D224f87054234871a169eda0b7463d86Model.createModelAsync(modelUri);
+    var model = await WinMLBridge.YoloModel.createModelAsync(modelUri);
     console.log("Log: Model Loaded " + model);    
     return model;
 }
