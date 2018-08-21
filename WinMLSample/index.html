@@ -2,17 +2,40 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>WinMLJSSample</title>
+    <title>Javascript Sample demostrating Windows ML api model inference</title>
     <link href="css/default.css" rel="stylesheet" />
+    <link href="css/tabs.css" rel="stylesheet" />
 </head>
 <body>
-    <div>Win ML Sample</div>
     <script src="js/main.js"></script>
-    <video id="video" width="640" height="480" autoplay></video>
-    <button id="snap">Snap Photo</button>
-    <canvas id="canvas" width="640" height="480"></canvas>
-    <canvas id="outputCanvas" width="640" height="480"></canvas>
+    
+        <div class="tabheaderrow">
+            <button class="tabheader" id="snaptabheader">Photo from Camera</button>
+            <button class="tabheader" id="uploadtabheader">Upload Photo</button>
+        </div>
 
-    <img id="outputImg" width="640" height="480" />
+        <div>
+            <div id="snaptab" class="tabcontent">
+                <div>
+                    <button id="snapButton">Snap Photo</button>
+                </div>
+                <h3>Webcam</h3>
+                <div>
+                    <video id="video" width="640" height="480" autoplay></video>
+                    <canvas id="canvas" width="640" height="480"></canvas>
+                </div>                
+            </div>
+
+            <div id="uploadtab" class="tabcontent">
+                <h3>Upload Photo</h3>
+                <button id="uploadButton">Browse</button>
+            </div>
+        </div>
+
+        <div>
+            <h3>Object Identification output from model</h3>
+            <canvas id="outputCanvas" width="640" height="480"></canvas>
+        </div>
+
 </body>
 </html>
