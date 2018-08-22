@@ -43,37 +43,38 @@ async function loaduploadtabElements() {
     document.getElementById("uploadButton").addEventListener("click", async function() {      
 
         var picker = new Windows.Storage.Pickers.FileOpenPicker();
-        picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-        picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
-        picker.FileTypeFilter.Add(".jpg");
-        picker.FileTypeFilter.Add(".jpeg");
-        picker.FileTypeFilter.Add(".png");
+        picker.viewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+        picker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+        picker.fileTypeFilter.push(".jpg");
+        picker.fileTypeFilter.push(".jpeg");
+        picker.fileTypeFilter.push(".png");
 
         var file = await picker.pickSingleFileAsync();
-        if (file != null) {
+        if (file !== null) {
 
             var base64Image = "";
             var reader = new FileReader();
+            var image = document.getElementById("uploadedphoto");            
 
-            reader.addEventListener("load", function () {
-                preview.src = reader.result;
+            reader.addEventListener("load", async function () {
+                var imageUrl = reader.result;
+                image.src = imageUrl;
+                base64Image = imageUrl.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+                var model = await loadModel();
+
+                var boxes = await model.evaluateModelAndProcessOutputAsync(base64Image);
+
+                renderImageOutput(boxes, image);
+
             }, false);
 
             if (file) {
-                base64Image = reader.readAsDataURL(file);
-            }
-
-            var model = await loadModel();
-           
-            var boxes = await model.evaluateModelAndProcessOutputAsync(base64Image);
-
-            renderImageOutput(boxes, image);
+                reader.readAsDataURL(file);
+            }           
         }
         else {
             // do nothing
-        }
-
-       
+        }       
     });
 }
 
@@ -87,7 +88,7 @@ async function loadsnaptabElements(video) {
     document.getElementById("snapButton").addEventListener("click", async function () {
         canvasContext.drawImage(video, 0, 0, 640, 480);
         var imageUrl = canvas.toDataURL("image/png");
-        var base64Image = imageUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+        var base64Image = imageUrl.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
 
         var image = new Image();
         image.src = imageUrl;
