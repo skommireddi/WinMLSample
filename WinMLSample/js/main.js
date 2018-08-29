@@ -85,11 +85,11 @@ async function loadsnaptabElements() {
 
         var canvas = document.getElementById('snappedPhoto');
         var video = document.getElementById('webcamVideo');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        canvas.width = video.clientWidth;
+        canvas.height = video.clientHeight;
         var canvasContext = canvas.getContext('2d');
 
-        canvasContext.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        canvasContext.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
         var image = new Image();
         image.src = canvas.toDataURL("image/png", );
 
@@ -111,10 +111,6 @@ async function loadsnaptabElements() {
 
 function startWebcam() {
     var video = document.getElementById('webcamVideo');
-    //var parentContainer = document.getElementById('snappedPhoto');
-    //video.width = parentContainer.width;
-    //video.height = parentContainer.height;
-
     // Get access to the camera!
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
@@ -142,11 +138,11 @@ function renderImageOutput(boxes, img) {
 
     var canvas = document.getElementById("outputCanvas");
     var video = document.getElementById('webcamVideo');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = video.clientWidth;
+    canvas.height = video.clientHeight;
 
-    var scaleWidth = video.videoWidth / 416;
-    var scaleHeigth = video.videoHeight / 416;
+    var scaleWidth = video.clientWidth / 416;
+    var scaleHeigth = video.clientHeight / 416;
     var ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 

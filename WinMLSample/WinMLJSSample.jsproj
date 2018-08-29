@@ -68,11 +68,7 @@
     <Content Include="images\StoreLogo.png" />
     <Content Include="images\Wide310x150Logo.scale-200.png" />
     <Content Include="js\main.js" />
-    <Content Include="Models\tiny_yolov2\test_data_0.npz" />
-    <Content Include="Models\tiny_yolov2\test_data_1.npz" />
-    <Content Include="Models\tiny_yolov2\test_data_2.npz" />
     <Content Include="Models\tiny_yolov2\TinyYOLO.onnx" />
-    <Content Include="Models\tiny_yolov2\tiny_yolov2.onnx" />
     <None Include="WinMLSample_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

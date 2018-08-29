@@ -1,15 +1,15 @@
 ﻿* {
     box-sizing: border-box;
 } 
-
-body, html {
-    height: 100%;
-    width:100%;
+﻿body, html {
+    height: auto;
+    width: auto;
     margin: 10px;
     font-family: Verdana;
     background-color: dimgray;
     font-size: 12px;
-    color:white;
+    color: white;
+    overflow:hidden;
 }
 
 #header {
@@ -23,7 +23,7 @@ button {
     padding:5px 10px;
     background-color: midnightblue;
     border:none;
-    margin:5px 0px;
+    margin:5px 0;
 }
 
 button:not(:last-child) {
@@ -34,10 +34,10 @@ button:not(:last-child) {
     background-color: gray;
     float: left;
     border: 1px solid darkgray;
-    border-bottom-width:0px;
+    border-bottom-width:0;
     cursor: pointer;
     color: white;
-    margin:0px;
+    margin:0;
 }
 
 .tabheader:hover {
@@ -55,20 +55,30 @@ button:not(:last-child) {
 
 .tabinput {
     display: none;
-    height: 40%;
 }
 
 .output {
     display:block;
 }
 
+#webcamVideo {
+    margin-right: 20px;
+}
 
 .title {
     color: white;
-    margin: 5px 0px;
+    margin: 5px 0;
 }
 
-/*video, canvas, img {
-    max-width: 100% !important;
-    height: auto !important;
-}*/
+video, canvas, img {
+    max-height: 400px;
+    height:100%;
+}
+
+
+@media only screen and (max-height: 768px) {
+    video, canvas, img {
+        max-height: 300px;
+        height: 100%;
+    }
+}
