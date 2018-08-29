@@ -1,12 +1,11 @@
 ﻿function openTab(tabName) {
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+    tabinput = document.getElementsByClassName("tabinput");
+    for (i = 0; i < tabinput.length; i++) {
+        tabinput[i].style.display = "none";
     }
 
     loadTab(tabName); 
 }
-
 
 if (window.Windows) {
     Windows.UI.WebUI.WebUIApplication.addEventListener('activated', async function (args) {
@@ -26,10 +25,11 @@ function loadTab(tabName) {
     switch (tabName) {
 
         case "snaptab":
-            var video = startWebcam();
-            loadsnaptabElements(video);
+            startWebcam();
+            loadsnaptabElements();
             break;
         case "uploadtab":
+            stopWebcam();
             loaduploadtabElements();
             break;
     } 
@@ -38,8 +38,6 @@ function loadTab(tabName) {
 }
 
 async function loaduploadtabElements() {
-
-    // Trigger photo take
     document.getElementById("uploadButton").addEventListener("click", async function() {      
 
         var picker = new Windows.Storage.Pickers.FileOpenPicker();
@@ -54,7 +52,7 @@ async function loaduploadtabElements() {
 
             var base64Image = "";
             var reader = new FileReader();
-            var image = document.getElementById("uploadedphoto");            
+            var image = document.getElementById("uploadedphoto");  
 
             reader.addEventListener("load", async function () {
                 var imageUrl = reader.result;
@@ -78,21 +76,33 @@ async function loaduploadtabElements() {
     });
 }
 
-async function loadsnaptabElements(video) {
-    // Elements for taking the snapshot
-    var canvas = document.getElementById('canvas');
-    var canvasContext = canvas.getContext('2d');
+async function loadsnaptabElements() {
+    
     var model = await loadModel();
 
     // Trigger photo take
     document.getElementById("snapButton").addEventListener("click", async function () {
-        canvasContext.drawImage(video, 0, 0, 640, 480);
-        var imageUrl = canvas.toDataURL("image/png");
-        var base64Image = imageUrl.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
 
+        var canvas = document.getElementById('snappedPhoto');
+        var video = document.getElementById('webcamVideo')
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        var canvasContext = canvas.getContext('2d');
+
+        canvasContext.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
         var image = new Image();
-        image.src = imageUrl;
-       
+        image.src = canvas.toDataURL("image/png", );
+
+        var imageSizeForYolo = 416;
+        var canvasForYoloInput = document.createElement("CANVAS");
+        canvasForYoloInput.width = imageSizeForYolo;
+        canvasForYoloInput.height = imageSizeForYolo;
+        var newcanvasContext = canvasForYoloInput.getContext('2d');
+
+        newcanvasContext.drawImage(video, 0, 0, imageSizeForYolo, imageSizeForYolo);
+        var imageUrl = canvasForYoloInput.toDataURL("image/png", );
+        var base64Image = imageUrl.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");       
+               
         var boxes = await model.evaluateModelAndProcessOutputAsync(base64Image);
 
         renderImageOutput(boxes, image);
@@ -100,22 +110,26 @@ async function loadsnaptabElements(video) {
 }
 
 function startWebcam() {
-    var video = document.getElementById('video');
+    var video = document.getElementById('webcamVideo');
+    //var parentContainer = document.getElementById('snappedPhoto');
+    //video.width = parentContainer.width;
+    //video.height = parentContainer.height;
 
     // Get access to the camera!
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        // Not adding `{ audio: true }` since we only want video now
         navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
             video.src = window.URL.createObjectURL(stream);
             video.play();
         });
     }
+}
 
-    return video;
+function stopWebcam() {
+    var video = document.getElementById('webcamVideo');
+    video.pause();
 }
 
 async function loadModel() {
-    //var yolo2 = "ms-appx:///Models/tiny_yolov2/tiny_yolov2.onnx";
     var yolo = "ms-appx:///Models/tiny_yolov2/TinyYOLO.onnx";
 
     var modelUri = new Windows.Foundation.Uri(yolo);
@@ -127,17 +141,23 @@ async function loadModel() {
 function renderImageOutput(boxes, img) {
 
     var canvas = document.getElementById("outputCanvas");
+    var video = document.getElementById('webcamVideo')
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    var scaleWidth = video.videoWidth / 416;
+    var scaleHeigth = video.videoHeight / 416;
     var ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
     boxes.forEach((box, index) => {
         ctx.beginPath();
         ctx.lineWidth = "3";
-        ctx.strokeStyle = "green";
-        ctx.rect(box.x, box.y, box.width, box.height);
+        ctx.strokeStyle = "blue";
+        ctx.rect(box.x * scaleWidth, box.y * scaleHeigth, box.width * scaleWidth, box.height *scaleHeigth);
         ctx.stroke();
         ctx.font = "20px Georgia";
-        ctx.fillText(box.label , box.x + box.width/4, box.y + box.height/4);
+        ctx.fillText(box.label , (box.x + box.width/4) * scaleWidth, (box.y + box.height/4) * scaleHeigth);
     });
 }
 

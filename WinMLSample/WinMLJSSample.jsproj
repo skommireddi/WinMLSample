@@ -58,7 +58,7 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="css\tabs.css" />
+    <Content Include="css\main.css" />
     <Content Include="index.html" />
     <Content Include="images\LockScreenLogo.scale-200.png" />
     <Content Include="images\SplashScreen.scale-200.png" />
@@ -68,7 +68,6 @@
     <Content Include="images\StoreLogo.png" />
     <Content Include="images\Wide310x150Logo.scale-200.png" />
     <Content Include="js\main.js" />
-    <Content Include="css\default.css" />
     <Content Include="Models\tiny_yolov2\test_data_0.npz" />
     <Content Include="Models\tiny_yolov2\test_data_1.npz" />
     <Content Include="Models\tiny_yolov2\test_data_2.npz" />
