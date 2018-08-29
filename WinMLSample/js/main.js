@@ -84,7 +84,7 @@ async function loadsnaptabElements() {
     document.getElementById("snapButton").addEventListener("click", async function () {
 
         var canvas = document.getElementById('snappedPhoto');
-        var video = document.getElementById('webcamVideo')
+        var video = document.getElementById('webcamVideo');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         var canvasContext = canvas.getContext('2d');
@@ -141,7 +141,7 @@ async function loadModel() {
 function renderImageOutput(boxes, img) {
 
     var canvas = document.getElementById("outputCanvas");
-    var video = document.getElementById('webcamVideo')
+    var video = document.getElementById('webcamVideo');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
