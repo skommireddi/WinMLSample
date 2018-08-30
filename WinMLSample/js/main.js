@@ -2,6 +2,9 @@
     tabinput = document.getElementsByClassName("tabinput");
     for (i = 0; i < tabinput.length; i++) {
         tabinput[i].style.display = "none";
+        var canvas = document.getElementById("outputcanvas");
+        var context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     loadTab(tabName); 
@@ -34,7 +37,7 @@ function loadTab(tabName) {
             break;
     } 
 
-    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).style.display = "inline-block";
 }
 
 async function loaduploadtabElements() {
@@ -136,7 +139,7 @@ async function loadModel() {
 
 function renderImageOutput(boxes, img) {
 
-    var canvas = document.getElementById("outputCanvas");
+    var canvas = document.getElementById("outputcanvas");
     var video = document.getElementById('webcamVideo');
     canvas.width = video.clientWidth;
     canvas.height = video.clientHeight;
