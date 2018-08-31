@@ -55,15 +55,11 @@ button:not(:last-child) {
 
 .tabinput {
     display: none;
-    width:60%;
+    width:100%;
 }
 
 .output {
     display:block;
-}
-
-#webcamVideo {
-    margin-right: 20px;
 }
 
 .title {
@@ -72,14 +68,6 @@ button:not(:last-child) {
 }
 
 video, canvas, img {
-    max-height: 400px;
-    height:100%;
-}
-
-
-@media only screen and (max-height: 768px) {
-    video, canvas, img {
-        max-height: 300px;
-        height: 100%;
-    }
+    width:49%;
+    height:auto;    
 }
