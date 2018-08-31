@@ -1,7 +1,6 @@
 ﻿var tabNames = { CameraCapture: "capturetab", PhotoUpload: "uploadtab" };
 var currentTab = tabNames.CameraCapture;
 var model = null;
-var log = document.getElementById("outputlog");
 
 function openTab(tabName) {
     tabinput = document.getElementsByClassName("tabinput");
@@ -30,7 +29,6 @@ if (window.Windows) {
     Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", onresuming);
 }
 
-
 function onresuming() {
     var video = document.getElementById("webcamvideo");
     if (currentTab === tabNames.CameraCapture) {
@@ -58,15 +56,15 @@ function loadTab(tabName) {
 
 async function loaduploadtabElements() {
     document.getElementById("uploadbutton").addEventListener("click", async function() {      
-
+        var log = document.getElementById("outputlog");
+        log.innerHTML = "";
         var picker = new Windows.Storage.Pickers.FileOpenPicker();
         picker.viewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
         picker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
         picker.fileTypeFilter.push(".jpg");
         picker.fileTypeFilter.push(".jpeg");
         picker.fileTypeFilter.push(".png");
-
-        var canvas = document.getElementById("outputcanvas");
+        
         var file = await picker.pickSingleFileAsync();
         if (file !== null) {
 
@@ -77,19 +75,21 @@ async function loaduploadtabElements() {
             reader.addEventListener("load", async function () {
                 var imageUrl = reader.result;
                 image.src = imageUrl;
-                base64Image = imageUrl.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+                logMessage("Photo uploaded");
+
                 if (model === null) {
                     model = await loadModel();
                 }
 
+                var canvas = document.getElementById("outputcanvas");
                 canvas.width = image.width;
                 canvas.height = image.height;
 
                 base64Image = formatImage(image);
-
+                logMessage("Evaluating model");
                 var boxes = await model.evaluateModelAndProcessOutputAsync(base64Image);
                 renderImageOutput(canvas, boxes, image);
-
+                logMessage("Model evalutaion completed");
             }, false);
 
             if (file) {
@@ -102,6 +102,12 @@ async function loaduploadtabElements() {
     });
 }
 
+function logMessage(msg) {
+    var log = document.getElementById("outputlog");
+    log.innerHTML = log.innerHTML + msg + "<br/>";
+}
+
+
 async function loadcapturetabElements() {
 
     if (model === null) {
@@ -110,20 +116,24 @@ async function loadcapturetabElements() {
 
     // Trigger photo take
     document.getElementById("capturebutton").addEventListener("click", async function () {
-
+        var log = document.getElementById("outputlog");        
+        log.innerHTML = "";
         var canvas = document.getElementById('capturedphoto');
         var video = document.getElementById('webcamvideo');
         canvas.width = video.clientWidth;
         canvas.height = video.clientHeight;
         var canvasContext = canvas.getContext('2d');
-
         canvasContext.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
+        logMessage("Photo captured");
+
         var image = new Image();
         image.src = canvas.toDataURL("image/png", );
 
         var image416x416 = formatImage(video);
+        logMessage("Evaluating model");
         var boxes = await model.evaluateModelAndProcessOutputAsync(image416x416);
         renderImageOutput(canvas, boxes, image);
+        logMessage("Model evalutaion completed");
     });
 }
 
