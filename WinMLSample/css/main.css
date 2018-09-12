@@ -44,6 +44,10 @@ button:not(:last-child) {
     background-color: lightblue;
 }
 
+.tabheader:focus {
+    background-color: darkgrey;
+}
+
 .tabheaderrow {
     display: inline-flex;
 }
