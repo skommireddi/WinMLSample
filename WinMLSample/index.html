@@ -7,37 +7,41 @@
     <link href="css/main.css" rel="stylesheet" />
 </head>
 <body>
-    <script src="js/main.js"></script>   
-    
-        <div class="tabheaderrow">
-            <button class="tabheader" id="capturetabheader">Camera Capture</button>
-            <button class="tabheader" id="uploadtabheader">Upload Photo</button>
+    <script src="js/main.js"></script>
+    <script src="js/tinyyolomodel.js"></script>
+    <script src="js/base64-binary.js"></script>
+
+
+    <div class="tabheaderrow">
+        <button class="tabheader" id="capturetabheader">Camera Capture</button>
+        <button class="tabheader" id="uploadtabheader">Upload Photo</button>
+    </div>
+
+    <div class="tabcontent">
+        <div id="header">
+            This sample demostrates using Windows ML apis for model inference from a JavaScript Web App. <br />
+            In this sample, we are using the tinyyolo object identification ONNX model version v2 to detect a list of 20 objects from a video frame/photo. Objects identified using this model include aeroplane, bicycle, bird, boat, bottle, bus, car, cat, chair, cow, diningtable, dog, horse, motorbike, person, pottedplant, sheep, sofa, train, tvmonitor
+            <br />
+            Note: This sample works only in RS5 or higher.<br />
+        </div>
+        <div id="capturetab" class="tabinput">
+            <div>
+                <button id="capturebutton">Capture Photo</button>
+            </div>
+            <video id="webcamvideo"></video>
+            <canvas id="capturedphoto"></canvas>
         </div>
 
-        <div class="tabcontent">
-            <div id="header">
-                This sample demostrates using Windows ML apis for model inference from a JavaScript Web App. <br />
-                In this sample, we are using the tinyyolo object identification ONNX model to detect a list of 20 objects from a video frame/photo. Objects identified using this model include aeroplane, bicycle, bird, boat, bottle, bus, car, cat, chair, cow, diningtable, dog, horse, motorbike, person, pottedplant, sheep, sofa, train, tvmonitor
-                <br />
+        <div id="uploadtab" class="tabinput">
+            <div>
+                <button id="uploadbutton">Browse and Upload Photo</button>
             </div>
-            <div id="capturetab" class="tabinput">       
-                <div>
-                    <button id="capturebutton">Capture Photo</button>
-                </div>
-                <video id="webcamvideo"></video>
-                <canvas id="capturedphoto"></canvas>
-            </div>
+            <img id="uploadedphoto" />
+            <canvas id="outputcanvas"></canvas>
+        </div>
+    </div>
 
-            <div id="uploadtab" class="tabinput">
-                <div>
-                    <button id="uploadbutton">Browse and Upload Photo</button>
-                </div>
-                <img id="uploadedphoto" />
-                <canvas id="outputcanvas"></canvas>
-            </div>
-           
-            <div id="outputlog" class="title"></div>
-        </div>     
+    <div id="outputlog" class="title"></div>
 
 </body>
 </html>

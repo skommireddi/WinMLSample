@@ -107,11 +107,10 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Bridge.cs" />
     <Compile Include="MyRectangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tiny_yolov2.cs" />
     <Compile Include="YoloBoundingBox.cs" />
+    <Compile Include="YoloHelper.cs" />
     <Compile Include="YoloOutputParser.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -48,8 +48,8 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).props" />
   <PropertyGroup>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.17754.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17754.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>$(VersionNumberMajor).$(VersionNumberMinor)</MinimumVisualStudioVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>WinMLSample_TemporaryKey.pfx</PackageCertificateKeyFile>
@@ -67,8 +67,10 @@
     <Content Include="images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="images\StoreLogo.png" />
     <Content Include="images\Wide310x150Logo.scale-200.png" />
+    <Content Include="js\base64-binary.js" />
     <Content Include="js\main.js" />
-    <Content Include="Models\tiny_yolov2\TinyYOLO.onnx" />
+    <Content Include="js\tinyyolomodel.js" />
+    <Content Include="Models\tiny_yolov2\tinyyolomodelv2.onnx" />
     <None Include="WinMLSample_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
