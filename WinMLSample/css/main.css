@@ -44,7 +44,7 @@ button:not(:last-child) {
     background-color: lightblue;
 }
 
-.tabheader:focus {
+.tabheader.active {
     background-color: darkgrey;
 }
 
